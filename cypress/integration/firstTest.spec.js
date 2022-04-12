@@ -34,6 +34,7 @@
 //    cy.contains('Разрешить основные и необязательные cookie').click()
 //    cy.get('[data-testid="open-registration-form-button"][role="button"]')
 // })
+//Comment_Snoopy
 
 it('Using Get with Find and Eq',() => {
    cy.visit('https://next.privat24.ua/deposit/open')
