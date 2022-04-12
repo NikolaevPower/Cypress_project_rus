@@ -35,7 +35,7 @@
 //    cy.get('[data-testid="open-registration-form-button"][role="button"]')
 // })
 
-//Comment 
+//Comment 12345
 
 it('Using Get with Find and Eq',() => {
    cy.visit('https://next.privat24.ua/deposit/open')
