@@ -46,5 +46,3 @@ it.only('Using Get with Find and Eq',() => {
    cy.visit('https://docs.cypress.io/api/commands/location#Syntax')
    cy.get('div').find('nav').find('ul').find('li').find('a').eq(0)
 })
-
-///Comment
