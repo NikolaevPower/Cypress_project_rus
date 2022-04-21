@@ -35,9 +35,8 @@ it.skip('Money transfer between foreign cards',() => {
 })
 
 
-
-it('Example sending the GET request',() => {
-
+//Example HTTP GET Request
+it.skip('Example sending the GET request',() => {
    cy.request('https://next.privat24.ua')
       .then((response) => {
          console.log(response)
@@ -45,7 +44,41 @@ it('Example sending the GET request',() => {
 });
 
 
+//Example HTTP GET Request with EXPECT verification of Response
+it.skip('Example sending the POST request',() => {
 
+   const requestBody = {
+      action:"info",
+      phone:"+380686979712",
+      amount:50,
+      currency:"UAH",
+      cardCvv:"111",
+      card:"4552331448138217",
+      cardExp:"0526",
+      xref:"2408e61d4af92112c167028baf952812",
+      _:1650539472078
+   }
+
+   const headersData = {
+      cookie: 
+      "_ga=GA1.2.1098993894.1649770114; _gid=GA1.2.837322655.1650463714; pubkey=3ad8bcb7ada62ed5ddfa68bf5543e4dd; lfp=4/12/2022, 3:28:46 PM; pa=1650129205588.72580.12617870224446492next.privat24.ua0.9164022743298901+13; fp=45"
+   };
+
+   cy.request({
+      method: "POST",
+      url: "https://next.privat24.ua/api/p24/pub/mobipay",
+      body: requestBody,
+      headers: headersData,
+   }).then((response) => {
+      expect(response).to.have.property('status').to.equal(200)
+      expect(response.body).to.have.property('status').to.equal("success")
+      expect(response.body.data).to.have.property('amount').to.equal("50.0")
+      console.log(response)
+   });
+});
+
+
+//Example HTTP GET Request with SHOULD verification of Response
 it('Example sending the POST request',() => {
 
    const requestBody = {
@@ -56,21 +89,25 @@ it('Example sending the POST request',() => {
       cardCvv:"111",
       card:"4552331448138217",
       cardExp:"0526",
-      xref:"b9cd1530935dc6f78f9910f0dd3f7edc",
-      _:1650534832585}
-
-
-   const requestHeaders = {
-      cookie: "_ga=GA1.2.1098993894.1649770114; _gid=GA1.2.837322655.1650463714; pubkey=4f4cd3fc655b3f39882852e763f07cbd; fp=43; lfp=4/12/2022, 3:28:46 PM; pa=1650129205588.72580.12617870224446492next.privat24.ua0.9164022743298901+12"
+      xref:"2408e61d4af92112c167028baf952812",
+      _:1650539472078
    }
+
+   const headersData = {
+      cookie: 
+      "_ga=GA1.2.1098993894.1649770114; _gid=GA1.2.837322655.1650463714; pubkey=3ad8bcb7ada62ed5ddfa68bf5543e4dd; lfp=4/12/2022, 3:28:46 PM; pa=1650129205588.72580.12617870224446492next.privat24.ua0.9164022743298901+13; fp=45"
+   };
 
    cy.request({
       method: "POST",
       url: "https://next.privat24.ua/api/p24/pub/mobipay",
       body: requestBody,
-      headers: requestHeaders,
-   }).then((response) => {
-      console.log(response.body)
-   });
+      headers: headersData,
+   }).its('body').should('contain', {
+         status: "success"
+   }).its('data').should('contain', {
+         amount:"50.0"
+   })
 });
+
 
