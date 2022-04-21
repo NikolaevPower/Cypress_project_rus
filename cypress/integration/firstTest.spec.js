@@ -4,7 +4,7 @@ import { transfers } from "..//support/pages/transfers"
 import { basePage } from "..//support/pages/basePage"
 
 
-it('Replenishment of Ukraine mobile phone number',() => {
+it.skip('Replenishment of Ukraine mobile phone number',() => {
    basePage.open('https://next.privat24.ua/mobile?lang=en')
    mobileReplenishment.typePhoneNumber('686979712')
    basePage.typeAmount(1)
@@ -17,7 +17,7 @@ it('Replenishment of Ukraine mobile phone number',() => {
    mobileReplenishment.checkPaymentCurrency('UAH')
 })
 
-it('Money transfer between foreign cards',() => {
+it.skip('Money transfer between foreign cards',() => {
    basePage.open('https://next.privat24.ua/money-transfer/card?lang=en')
    cy.wait(1000)
    basePage.typeDebitCardData('4552 3314 4813 8217','0524','111')
@@ -33,3 +33,44 @@ it('Money transfer between foreign cards',() => {
    transfers.checkReceiverAmount('500 UAH')
    transfers.checkComment('Cypress Test')   
 })
+
+
+
+it('Example sending the GET request',() => {
+
+   cy.request('https://next.privat24.ua')
+      .then((response) => {
+         console.log(response)
+      });
+});
+
+
+
+it('Example sending the POST request',() => {
+
+   const requestBody = {
+      action:"info",
+      phone:"+380686979712",
+      amount:50,
+      currency:"UAH",
+      cardCvv:"111",
+      card:"4552331448138217",
+      cardExp:"0526",
+      xref:"b9cd1530935dc6f78f9910f0dd3f7edc",
+      _:1650534832585}
+
+
+   const requestHeaders = {
+      cookie: "_ga=GA1.2.1098993894.1649770114; _gid=GA1.2.837322655.1650463714; pubkey=4f4cd3fc655b3f39882852e763f07cbd; fp=43; lfp=4/12/2022, 3:28:46 PM; pa=1650129205588.72580.12617870224446492next.privat24.ua0.9164022743298901+12"
+   }
+
+   cy.request({
+      method: "POST",
+      url: "https://next.privat24.ua/api/p24/pub/mobipay",
+      body: requestBody,
+      headers: requestHeaders,
+   }).then((response) => {
+      console.log(response.body)
+   });
+});
+
