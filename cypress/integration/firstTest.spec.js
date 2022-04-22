@@ -2,6 +2,33 @@
 import { mobileReplenishment } from "..//support/pages/mobileReplenishment"
 import { transfers } from "..//support/pages/transfers"
 import { basePage } from "..//support/pages/basePage"
+import { archivePage } from "../support/pages/archivePage"
+
+
+beforeEach('setup succsess response with stub',() => {
+   cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/check?', {
+      fixtures:'confirmResponse/succsess.json'
+   });
+})
+
+it.skip('check state succsess of payment in the archive | public session',() =>{
+   cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/archive?', {
+      fixtures:'achiveResponse/succsess.json'
+   });
+
+   basePage.open('https://next.privat24.ua?lang=en')
+   archivePage.selectAchiveMenu()
+})
+
+
+it('check state error of payment in the archive | public session',() => {
+   cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/archive?', {
+      fixtures:'achiveResponse/error.json'
+   });
+   
+   basePage.open('https://next.privat24.ua?lang=en')
+   archivePage.selectAchiveMenu()
+})
 
 
 it.skip('Replenishment of Ukraine mobile phone number',() => {
@@ -15,6 +42,7 @@ it.skip('Replenishment of Ukraine mobile phone number',() => {
    mobileReplenishment.checkDebitAmount('1','UAH')
    mobileReplenishment.checkDebitAmountCommission('2')
    mobileReplenishment.checkPaymentCurrency('UAH')
+   cy.contains('Pay').click()
 })
 
 it.skip('Money transfer between foreign cards',() => {
@@ -79,7 +107,7 @@ it.skip('Example sending the POST request',() => {
 
 
 //Example HTTP GET Request with SHOULD verification of Response
-it('Example sending the POST request',() => {
+it.skip('Example sending the POST request',() => {
 
    const requestBody = {
       action:"info",
