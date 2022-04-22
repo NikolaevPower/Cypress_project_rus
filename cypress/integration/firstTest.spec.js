@@ -2,36 +2,9 @@
 import { mobileReplenishment } from "..//support/pages/mobileReplenishment"
 import { transfers } from "..//support/pages/transfers"
 import { basePage } from "..//support/pages/basePage"
-import { archivePage } from "../support/pages/archivePage"
 
 
-beforeEach('setup succsess response with stub',() => {
-   cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/check?', {
-      fixtures:'confirmResponse/succsess.json'
-   });
-})
-
-it.skip('check state succsess of payment in the archive | public session',() =>{
-   cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/archive?', {
-      fixtures:'achiveResponse/succsess.json'
-   });
-
-   basePage.open('https://next.privat24.ua?lang=en')
-   archivePage.selectAchiveMenu()
-})
-
-
-it('check state error of payment in the archive | public session',() => {
-   cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/archive?', {
-      fixtures:'achiveResponse/error.json'
-   });
-   
-   basePage.open('https://next.privat24.ua?lang=en')
-   archivePage.selectAchiveMenu()
-})
-
-
-it.skip('Replenishment of Ukraine mobile phone number',() => {
+it('Replenishment of Ukraine mobile phone number',() => {
    basePage.open('https://next.privat24.ua/mobile?lang=en')
    mobileReplenishment.typePhoneNumber('686979712')
    basePage.typeAmount(1)
@@ -45,7 +18,7 @@ it.skip('Replenishment of Ukraine mobile phone number',() => {
    cy.contains('Pay').click()
 })
 
-it.skip('Money transfer between foreign cards',() => {
+it('Money transfer between foreign cards',() => {
    basePage.open('https://next.privat24.ua/money-transfer/card?lang=en')
    cy.wait(1000)
    basePage.typeDebitCardData('4552 3314 4813 8217','0524','111')
@@ -64,7 +37,7 @@ it.skip('Money transfer between foreign cards',() => {
 
 
 //Example HTTP GET Request
-it.skip('Example sending the GET request',() => {
+it('Example sending the GET request',() => {
    cy.request('https://next.privat24.ua')
       .then((response) => {
          console.log(response)
@@ -73,7 +46,7 @@ it.skip('Example sending the GET request',() => {
 
 
 //Example HTTP GET Request with EXPECT verification of Response
-it.skip('Example sending the POST request',() => {
+it('Example sending the POST request',() => {
 
    const requestBody = {
       action:"info",
@@ -107,7 +80,7 @@ it.skip('Example sending the POST request',() => {
 
 
 //Example HTTP GET Request with SHOULD verification of Response
-it.skip('Example sending the POST request',() => {
+it('Example sending the POST request',() => {
 
    const requestBody = {
       action:"info",
